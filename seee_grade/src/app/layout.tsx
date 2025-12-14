@@ -1,17 +1,6 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -21,6 +10,11 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: "SEEE Grade",
   description: "Make by BIDH",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
