@@ -38,6 +38,7 @@ export function CustomInput(
         fullWidth
         variant="standard"
         id={name}
+        name={name}
         label={label} 
         value={value}
         onChange={onChange}

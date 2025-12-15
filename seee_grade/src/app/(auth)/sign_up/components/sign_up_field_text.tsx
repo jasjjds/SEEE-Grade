@@ -9,12 +9,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockIcon from "@mui/icons-material/Lock";
 
-export function SignInFieldText (){
+export function SignUpFieldText (){
   const [formData, setFormData] = useState({
     username:"", 
     password:"",
+    repassword:"",
   });
   const [showPassword, setshowPassword] = useState(false);
+  const [showRePassword, setshowRePassword] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,6 +24,7 @@ export function SignInFieldText (){
     event.preventDefault();
   };
   const handleClickShowPassword = () => setshowPassword((show) => !show)
+  const handleClickShowRePassword = () => setshowRePassword((show) => !show)
   return(
     <>
       <CustomInput
@@ -46,6 +49,24 @@ export function SignInFieldText (){
             edge="end"
           >
             {showPassword ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        }
+      />
+      <CustomInput
+        label="Re-Password"
+        name="repassword"
+        value={formData.repassword}
+        onChange={handleChange}
+        type={showPassword ? "text" : "repassword"}
+        startIcon={<LockIcon/>}
+        endIcon={
+          <IconButton
+            aria-label="toggle password visibility"
+            onClick={handleClickShowPassword}
+            onMouseDown={handleMouseDownPassword}
+            edge="end"
+          >
+            {showRePassword ? <VisibilityOff /> : <Visibility />}
           </IconButton>
         }
       />
