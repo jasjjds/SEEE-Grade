@@ -19,13 +19,9 @@ export function TypewriterText({ text, speed = 100 }: { text: string; speed?: nu
 
   return (
     <span className="
-      font-bold text-4xl md:text-6xl  /* Kích thước chữ */
-      
-      /* --- TẠO MÀU GRADIENT ĐỎ --- */
-      bg-gradient-to-r from-red-700 via-red-500 to-orange-500
+      font-bold text-4xl md:text-6xl
+      bg-gradient-to-r from-red-700 via-red-500 to-pink-500
       bg-clip-text text-transparent
-      
-      /* Hiệu ứng nhấp nháy con trỏ (Option) */
       border-r-4 border-red-500 pr-2 animate-pulse
     ">
       {displayedText}
