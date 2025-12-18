@@ -23,7 +23,7 @@ export function SignInFieldText (){
   };
   const handleClickShowPassword = () => setshowPassword((show) => !show)
   return(
-    <>
+    <div className="flex flex-col gap-4 ">
       <CustomInput
         label="Username"
         name="username"
@@ -49,6 +49,6 @@ export function SignInFieldText (){
           </IconButton>
         }
       />
-    </>
+    </div>
   );
 }

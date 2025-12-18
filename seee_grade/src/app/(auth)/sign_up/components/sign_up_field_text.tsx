@@ -26,7 +26,7 @@ export function SignUpFieldText (){
   const handleClickShowPassword = () => setshowPassword((show) => !show)
   const handleClickShowRePassword = () => setshowRePassword((show) => !show)
   return(
-    <>
+    <div className="flex flex-col gap-4 ">
       <CustomInput
         label="Username"
         name="username"
@@ -57,12 +57,12 @@ export function SignUpFieldText (){
         name="repassword"
         value={formData.repassword}
         onChange={handleChange}
-        type={showPassword ? "text" : "repassword"}
+        type={showPassword ? "text" : "password"}
         startIcon={<LockIcon/>}
         endIcon={
           <IconButton
             aria-label="toggle password visibility"
-            onClick={handleClickShowPassword}
+            onClick={handleClickShowRePassword}
             onMouseDown={handleMouseDownPassword}
             edge="end"
           >
@@ -70,6 +70,6 @@ export function SignUpFieldText (){
           </IconButton>
         }
       />
-    </>
+    </div>
   );
 }
