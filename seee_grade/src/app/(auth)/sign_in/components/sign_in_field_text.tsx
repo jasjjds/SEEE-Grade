@@ -9,33 +9,40 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockIcon from "@mui/icons-material/Lock";
 
-export function SignInFieldText (){
-  const [formData, setFormData] = useState({
-    username:"", 
-    password:"",
-  });
-  const [showPassword, setshowPassword] = useState(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+interface SignInFieldTextProps {
+  formData: {
+    username: string;
+    password?: string;
   };
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export function SignInFieldText ({formData, onChange}: SignInFieldTextProps) {
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Đã xóa hàm handleChange thừa
+  
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const handleClickShowPassword = () => setshowPassword((show) => !show)
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   return(
     <div className="flex flex-col gap-4 ">
       <CustomInput
         label="Username"
         name="username"
-        value={formData.username}
-        onChange={handleChange}
+        value={formData.username || ""}
+        onChange={onChange} // Truyền thẳng hàm từ props vào đây
         startIcon={<AccountCircleOutlinedIcon/>}
       />
       <CustomInput
         label="Password"
         name="password"
-        value={formData.password}
-        onChange={handleChange}
+        value={formData.password || ""}
+        onChange={onChange} // Truyền thẳng hàm từ props vào đây
         type={showPassword ? "text" : "password"}
         startIcon={<LockIcon/>}
         endIcon={
@@ -44,6 +51,7 @@ export function SignInFieldText (){
             onClick={handleClickShowPassword}
             onMouseDown={handleMouseDownPassword}
             edge="end"
+            sx={{ color: 'white' }} // THÊM: Để icon mắt màu trắng nổi bật trên nền
           >
             {showPassword ? <VisibilityOff /> : <Visibility />}
           </IconButton>

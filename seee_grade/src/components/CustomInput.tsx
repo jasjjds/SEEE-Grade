@@ -1,5 +1,7 @@
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment';
+import React from 'react';
+
 interface InputProps {
   label: string,
   name: string,
@@ -47,6 +49,39 @@ export function CustomInput(
         helperText={helperText}
         required={required}
         disabled={disabled}
+        
+        // --- PHẦN STYLE QUAN TRỌNG ---
+        sx={{
+          // 1. Màu chữ người dùng nhập vào
+          '& .MuiInputBase-input': {
+            color: 'white', 
+          },
+          '& .MuiInputLabel-root': {
+            color: '#d1d5db',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: '#ec4899',
+          },
+          '& .MuiInput-underline:before': {
+            borderBottomColor: '#6b7280', // Màu xám khi bình thường
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderBottomColor: 'white', // Màu trắng khi di chuột vào
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: '#ec4899', // Màu hồng khi đang gõ (Active)
+          },
+          // 4. Màu của Icon (Adornment)
+          '& .MuiInputAdornment-root': {
+            color: 'white',
+          },
+          // Xử lý icon cụ thể bên trong nếu nó là SVG
+          '& .MuiInputAdornment-root .MuiSvgIcon-root': {
+             color: 'white',
+          }
+        }}
+        // -----------------------------
+
         slotProps={{
           input: {
             readOnly: readOnly,

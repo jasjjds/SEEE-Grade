@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CustomInput } from "@/components/CustomInput"; 
+import { CustomInput } from "@/components/CustomInput";
 
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import IconButton from "@mui/material/IconButton";
@@ -9,62 +9,70 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockIcon from "@mui/icons-material/Lock";
 
-export function SignUpFieldText (){
-  const [formData, setFormData] = useState({
-    username:"", 
-    password:"",
-    repassword:"",
-  });
-  const [showPassword, setshowPassword] = useState(false);
-  const [showRePassword, setshowRePassword] = useState(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+interface SignUpFieldTextProps {
+  formData: {
+    username: string;
+    password?: string;
+    repassword?: string;
   };
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export function SignUpFieldText({ formData, onChange }: SignUpFieldTextProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
+
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const handleClickShowPassword = () => setshowPassword((show) => !show)
-  const handleClickShowRePassword = () => setshowRePassword((show) => !show)
-  return(
-    <div className="flex flex-col gap-4 ">
+
+  return (
+    <div className="flex flex-col gap-4">
       <CustomInput
         label="Username"
         name="username"
-        value={formData.username}
-        onChange={handleChange}
-        startIcon={<AccountCircleOutlinedIcon/>}
+        value={formData.username} // Lấy value từ props
+        onChange={onChange}       // Gọi hàm từ props
+        startIcon={<AccountCircleOutlinedIcon />}
       />
+
+      {/* PASSWORD */}
       <CustomInput
         label="Password"
         name="password"
-        value={formData.password}
-        onChange={handleChange}
+        value={formData.password || ""}
+        onChange={onChange}
         type={showPassword ? "text" : "password"}
-        startIcon={<LockIcon/>}
+        startIcon={<LockIcon />}
         endIcon={
           <IconButton
             aria-label="toggle password visibility"
-            onClick={handleClickShowPassword}
+            onClick={() => setShowPassword(!showPassword)}
             onMouseDown={handleMouseDownPassword}
             edge="end"
+            sx={{ color: 'white' }} // Thêm màu trắng cho icon mắt
           >
             {showPassword ? <VisibilityOff /> : <Visibility />}
           </IconButton>
         }
       />
+
+      {/* RE-PASSWORD */}
       <CustomInput
         label="Re-Password"
         name="repassword"
-        value={formData.repassword}
-        onChange={handleChange}
-        type={showPassword ? "text" : "password"}
-        startIcon={<LockIcon/>}
+        value={formData.repassword || ""}
+        onChange={onChange}
+        // SỬA LỖI Ở ĐÂY: Dùng showRePassword
+        type={showRePassword ? "text" : "password"} 
+        startIcon={<LockIcon />}
         endIcon={
           <IconButton
             aria-label="toggle password visibility"
-            onClick={handleClickShowRePassword}
+            onClick={() => setShowRePassword(!showRePassword)}
             onMouseDown={handleMouseDownPassword}
             edge="end"
+            sx={{ color: 'white' }} // Thêm màu trắng cho icon mắt
           >
             {showRePassword ? <VisibilityOff /> : <Visibility />}
           </IconButton>

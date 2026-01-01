@@ -2,29 +2,87 @@
 
 import { useState, useEffect } from "react";
 
-export function TypewriterText({ text, speed = 100 }: { text: string; speed?: number }) {
-  const [displayedText, setDisplayedText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface TypewriterTextProps {
+  lines: string[];
+  speed?: number;
+}
+
+export function TypewriterText({ lines, speed = 100 }: TypewriterTextProps) {
+  const [displayedLines, setDisplayedLines] = useState<string[]>(lines.map(() => ""));
+  const [activeLineIndex, setActiveLineIndex] = useState(0);
+  const [currentMapIndex, setCurrentMapIndex] = useState(0);
 
   useEffect(() => {
-    if (currentIndex < text.length) {
+    if (activeLineIndex >= lines.length) return;
+
+    const currentLineOriginal = lines[activeLineIndex];
+
+    if (currentMapIndex < currentLineOriginal.length) {
       const timeout = setTimeout(() => {
-        setDisplayedText((prev) => prev + text[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
+        setDisplayedLines((prev) => {
+          const newLines = [...prev];
+          newLines[activeLineIndex] = currentLineOriginal.slice(0, currentMapIndex + 1);
+          return newLines;
+        });
+        setCurrentMapIndex((prev) => prev + 1);
       }, speed);
 
       return () => clearTimeout(timeout);
+    } else {
+      const timeout = setTimeout(() => {
+        setActiveLineIndex((prev) => prev + 1);
+        setCurrentMapIndex(0);
+      }, 500); 
+      return () => clearTimeout(timeout);
     }
-  }, [currentIndex, text, speed]);
+  }, [activeLineIndex, currentMapIndex, lines, speed]);
+
+  // Style chung cho cả bản hiển thị và bản "giữ chỗ" để đảm bảo khớp khít
+  const getLineStyles = (index: number) => `
+    block font-bold text-4xl md:text-6xl leading-tight
+    ${index === 0 ? "text-white" : "bg-gradient-to-r from-red-700 via-red-300 to-pink-500 bg-clip-text text-transparent"}
+  `;
 
   return (
-    <span className="
-      font-bold text-4xl md:text-6xl
-      bg-gradient-to-r from-red-700 via-red-500 to-pink-500
-      bg-clip-text text-transparent
-      border-r-4 border-red-500 pr-2 animate-pulse
-    ">
-      {displayedText}
-    </span>
+    <div className="relative">
+      {/* LAYER 1: BẢN GIỮ CHỖ (INVISIBLE)
+         Render full text ngay lập tức nhưng tàng hình (invisible).
+         Mục đích: Chiếm không gian chiều cao/rộng tối đa ngay từ đầu.
+      */}
+      <div className="flex flex-col items-center text-center invisible select-none">
+        {lines.map((line, index) => (
+          <span 
+            key={index} 
+            className={`${getLineStyles(index)} border-r-4 border-transparent pr-2`} // Thêm border trong suốt để kích thước y hệt bản chính
+          >
+            {line}
+          </span>
+        ))}
+      </div>
+
+      {/* LAYER 2: BẢN CHẠY HIỆU ỨNG (VISIBLE)
+         Dùng position absolute để đè lên đúng vị trí của Layer 1.
+      */}
+      <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center text-center">
+        {lines.map((line, index) => {
+          const isCursorVisible = 
+              index === activeLineIndex && 
+              displayedLines[index].length < lines[index].length || 
+              (index === activeLineIndex && index === lines.length - 1);
+
+          return (
+            <span
+              key={index}
+              className={`
+                ${getLineStyles(index)}
+                ${isCursorVisible ? "border-r-4 border-red-500 pr-2 animate-pulse" : "border-r-4 border-transparent pr-2"}
+              `}
+            >
+              {displayedLines[index]}
+            </span>
+          );
+        })}
+      </div>
+    </div>
   );
-};
+}
