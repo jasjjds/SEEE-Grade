@@ -13,14 +13,14 @@ interface SignUpFieldTextProps {
   formData: {
     username: string;
     password?: string;
-    repassword?: string;
+    confirmPassword?: string;
   };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function SignUpFieldText({ formData, onChange }: SignUpFieldTextProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const [showRePassword, setShowRePassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -59,22 +59,22 @@ export function SignUpFieldText({ formData, onChange }: SignUpFieldTextProps) {
 
       {/* RE-PASSWORD */}
       <CustomInput
-        label="Re-Password"
-        name="repassword"
-        value={formData.repassword || ""}
+        label="Confirm Password"
+        name="confirmPassword"
+        value={formData.confirmPassword || ""}
         onChange={onChange}
-        // SỬA LỖI Ở ĐÂY: Dùng showRePassword
-        type={showRePassword ? "text" : "password"} 
+        // SỬA LỖI Ở ĐÂY: Dùng showConfirmPassword
+        type={showConfirmPassword ? "text" : "password"} 
         startIcon={<LockIcon />}
         endIcon={
           <IconButton
             aria-label="toggle password visibility"
-            onClick={() => setShowRePassword(!showRePassword)}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             onMouseDown={handleMouseDownPassword}
             edge="end"
             sx={{ color: 'white' }} // Thêm màu trắng cho icon mắt
           >
-            {showRePassword ? <VisibilityOff /> : <Visibility />}
+            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
           </IconButton>
         }
       />

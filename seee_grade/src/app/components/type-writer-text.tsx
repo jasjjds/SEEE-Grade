@@ -45,10 +45,6 @@ export function TypewriterText({ lines, speed = 100 }: TypewriterTextProps) {
 
   return (
     <div className="relative">
-      {/* LAYER 1: BẢN GIỮ CHỖ (INVISIBLE)
-         Render full text ngay lập tức nhưng tàng hình (invisible).
-         Mục đích: Chiếm không gian chiều cao/rộng tối đa ngay từ đầu.
-      */}
       <div className="flex flex-col items-center text-center invisible select-none">
         {lines.map((line, index) => (
           <span 
@@ -60,9 +56,6 @@ export function TypewriterText({ lines, speed = 100 }: TypewriterTextProps) {
         ))}
       </div>
 
-      {/* LAYER 2: BẢN CHẠY HIỆU ỨNG (VISIBLE)
-         Dùng position absolute để đè lên đúng vị trí của Layer 1.
-      */}
       <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center text-center">
         {lines.map((line, index) => {
           const isCursorVisible = 

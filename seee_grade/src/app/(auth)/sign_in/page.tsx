@@ -17,12 +17,16 @@ export default function SignIn() {
   };
 
   const handleSignUp = () => {
+    if(!formData.username || !formData.password){
+      alert("Vui lòng nhập đầy đủ username và password!");
+      return;
+    }
     if(!formData.username){
-      alert("Vui lòng nhập tên đăng nhập!");
+      alert("Vui lòng nhập username!");
       return;
     }
     if(!formData.password){
-      alert("Vui lòng nhập mật khẩu!");
+      alert("Vui lòng nhập password!");
       return;
     }
     router.push(`/home?username=${encodeURIComponent(formData.username)}`);

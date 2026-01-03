@@ -10,7 +10,7 @@ export default function SignIn() {
   const [formData, setFormData] =useState({
     username: '',
     password: '',
-    repassword: '',
+    confirmPassword: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,19 +18,19 @@ export default function SignIn() {
   };
 
   const handleSignUp = () => {
+    if(!formData.username || !formData.password || !formData.confirmPassword){
+      alert("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
     if(!formData.username){
-      alert("Vui lòng nhập tên đăng nhập!");
+      alert("Vui lòng nhập username!");
       return;
     }
     if(!formData.password){
-      alert("Vui lòng nhập mật khẩu!");
+      alert("Vui lòng nhập password!");
       return;
     }
-    if(!formData.repassword){
-      alert("Vui lòng nhập lại mật khẩu!");
-      return;
-    }
-    if (formData.password !== formData.repassword) {
+    if (formData.password !== formData.confirmPassword) {
       alert("Mật khẩu không khớp!");
       return;
     }
