@@ -1,4 +1,4 @@
-import PredictSubject from '@/app/(dashboard)/predict-subject/page';
+
 import axiosInstance, { endpoints } from '@/lib/axios';
 
 const predictionApi = {
@@ -10,7 +10,7 @@ const predictionApi = {
     return axiosInstance.post(endpoints.model_predict.predict_cpa, payload);
   },
 
-  PredictSubject: (payload) => {
+  predictSubject: (payload) => {
     return axiosInstance.post(endpoints.model_predict.predict_subject, payload);
   }
 };

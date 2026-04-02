@@ -182,8 +182,18 @@ export default function PredictGPA() {
         setOpenResultDialog(true);
 
     } catch (err: any) {
-        console.error(err);
-        setErrorMsg(err.message || err.detail || "Có lỗi xảy ra khi dự đoán");
+        console.error("Prediction error:", err);
+        let message = "Có lỗi xảy ra khi dự đoán";
+        
+        if (err?.message) {
+            message = err.message;
+        } else if (err?.detail) {
+            message = err.detail;
+        } else if (typeof err === 'string') {
+            message = err;
+        }
+        
+        setErrorMsg(message + " - Kiểm tra Backend đã chạy chưa!");
     } finally {
         setLoading(false);
     }

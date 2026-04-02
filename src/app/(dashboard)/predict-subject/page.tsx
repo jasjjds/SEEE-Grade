@@ -192,15 +192,31 @@ export default function PredictSubject() {
             target_subjects: autoTargetSubjects // Gửi danh sách tự động này
         };
 
-        const response = await predictionApi.PredictSubject(payload);
-        const dataRes = Array.isArray(response) ? response : (response as any).data;
+        const dataRes = await predictionApi.predictSubject(payload);
         
-        setResults(dataRes);
+        // Ensure dataRes is an array
+        const resultsArray = Array.isArray(dataRes) ? dataRes : 
+                            (dataRes && (dataRes as any).data) ? (dataRes as any).data : 
+                            [];
+        
+        setResults(resultsArray);
         setOpenModal(true);
 
     } catch (err: any) {
-        console.error(err);
-        alert(typeof err === 'string' ? err : (err.response?.data?.detail || "Có lỗi xảy ra"));
+        console.error("Prediction error:", err);
+        let message = "Có lỗi xảy ra";
+        
+        if (typeof err === 'string') {
+            message = err;
+        } else if (err?.detail) {
+            message = err.detail;
+        } else if (err?.message) {
+            message = err.message;
+        } else if (err?.error) {
+            message = err.error;
+        }
+        
+        alert(message + "\n\nKiểm tra xem Backend đã chạy tại http://localhost:8000 chưa!");
     } finally {
         setLoading(false);
     }

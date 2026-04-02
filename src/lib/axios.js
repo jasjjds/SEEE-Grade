@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.BE_LOCALHOST_ADDRESS || `http://localhost:8000`;
+// Cho production: đặt NEXT_PUBLIC_API_URL=https://your-backend.onrender.com
+// Cho local: mặc định http://localhost:8000
+const API_URL = process.env.NEXT_PUBLIC_API_URL || `http://localhost:8000`;
 
 const axiosInstance = axios.create({ baseURL: API_URL });
 
